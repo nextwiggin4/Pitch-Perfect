@@ -7,12 +7,13 @@
 //
 
 import UIKit
-import AVFondation
+import AVFoundation
 
 class PlaySoundsViewController: UIViewController {
     
     var audioPlayer:AVAudioPlayer!
-    var recuevedAido:RecordedAudio!
+    var receivedAudio:RecordedAudio!
+    
     var audioEngine:AVAudioEngine!
     var audioFile: AVAudioFile!
 
@@ -38,20 +39,21 @@ class PlaySoundsViewController: UIViewController {
         playWithVariableSpeed(0.5)
     }
     
-    @IBAction func playSlow(sender: UIButton) {
+    @IBAction func playFast(sender: UIButton) {
         playWithVariableSpeed(2.0)
     }
     
-    @IBAction func playChipmunkAudio(sender: AnyObject) {
-        playWithVariablePitch(-1000)
+    @IBAction func playChipmunkAudio(sender: UIButton) {
+        playAudioWithVariablePitch(1000)
     }
     
     @IBAction func playDarthUdio(sender: UIButton) {
-        playAudioWithVariablePitch(1000)
+        playAudioWithVariablePitch(-1000)
     }
     
     @IBAction func stopAudio(sender: UIButton) {
         audioPlayer.stop()
+        audioEngine.stop()
     }
     
     func playAudioWithVariablePitch(pitch: Float){
@@ -77,6 +79,7 @@ class PlaySoundsViewController: UIViewController {
     
     func playWithVariableSpeed(speed: Float){
         audioPlayer.stop()
+        audioEngine.stop()
         audioPlayer.rate = speed
         audioPlayer.currentTime = 0
         audioPlayer.play()

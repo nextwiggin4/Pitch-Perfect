@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  RecordSoundsViewController.swift
 //  Pitch Perfect
 //
 //  Created by Matthew Dean Furlo on 3/16/15.
@@ -9,19 +9,24 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, AVAudioRecorderDelegate {
+class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
 
     var audioRecorder: AVAudioRecorder!
     var recordedAudio: RecordedAudio!
     
     @IBOutlet weak var recording: UILabel!
     @IBOutlet weak var recordAudio: UIButton!
-    @IBOutlet weak var stopRecod: UIButton!
+    @IBOutlet weak var stopRecord: UIButton!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        stopRecord.hidden = true
+        recordAudio.enabled = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,7 +36,7 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
 
     @IBAction func recordAudio(sender: UIButton) {
         recording.hidden = false
-        stopRecod.hidden = false
+        stopRecord.hidden = false
         recordAudio.enabled = false
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
@@ -67,8 +72,8 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         }
         else{
             println("recording was not successful")
-            recordButton.enabled = true
-            stopButton.hidden = true
+            recordAudio.enabled = true
+            stopRecord.hidden = true
         }
     }
     
@@ -80,15 +85,9 @@ class ViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        stopButton.hidden = true
-        recordButton.enabled = true
-        
-        
-    }
 
     @IBAction func stopRecord(sender: UIButton) {
-        recordingProgress.hidden = true
+        recording.hidden = true
         
         audioRecorder.stop()
         var audioSession = AVAudioSession.sharedInstance()
