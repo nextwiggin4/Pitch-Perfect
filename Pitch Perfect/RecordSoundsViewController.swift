@@ -14,6 +14,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     var audioRecorder: AVAudioRecorder!
     var recordedAudio: RecordedAudio!
     
+    var session = AVAudioSession.sharedInstance()
+    
     @IBOutlet weak var recording: UILabel!
     @IBOutlet weak var recordAudio: UIButton!
     @IBOutlet weak var stopRecord: UIButton!
@@ -49,7 +51,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         let filePath = NSURL.fileURLWithPathComponents(pathArray)
         println(filePath)
         
-        var session = AVAudioSession.sharedInstance()
+
         session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
         
         audioRecorder = AVAudioRecorder(URL: filePath, settings: nil, error: nil)
@@ -68,6 +70,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             recordedAudio.title = recorder.url.lastPathComponent
             
             //Move to the next scene aka perform segue
+            session.setCategory(AVAudioSessionCategoryPlayback, error: nil)
             self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
         }
         else{
